@@ -45,14 +45,33 @@ function SettingScreen({navigation}) {
   );
 }
 
+function LogoTitle() {
+  return (
+    <Text>Home Screen</Text>
+  );
+}
+
 const stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
       
-      <stack.Navigator initialRouteName='Home'>
-        <stack.Screen name="Home" component={HomeScreen} />
+      <stack.Navigator 
+        initialRouteName='Home'
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}>
+        <stack.Screen 
+          name="Home" 
+          component={HomeScreen}
+          options={{headerTitle:(props)=><LogoTitle {...props}/>}} />
         <stack.Screen name="Details" component={DetailsScreen} />
         <stack.Screen name="Settings" component={SettingScreen} options={{ headerShown: false }} />
       </stack.Navigator>
