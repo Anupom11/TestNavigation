@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, Button,} from 'react-native';
 import { NavigationContainer, TabActions } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 function HomeScreen({navigation}) {
   return (
@@ -102,7 +103,24 @@ function App() {
           options={{ headerShown: false }} />
       </stack.Navigator> */}
 
-      <tab.Navigator>
+      <tab.Navigator
+        screenOptions={({route})=> ({
+          tabBarIcon:({focused, color, size})=> {
+            let iconName;
+            if(route.name === 'HomeTab') {
+              iconName = focused ? 'add-circle' : 'add-circle';
+            }
+            else if(route.name === 'SettingsTab') {
+              iconName = focused ? 'alarm' : 'alarm';
+            }
+
+            return <Ionicons name={iconName} size={size} color={color}/>
+          },
+
+          tabBarActiveTintColor:'tomato',
+          tabBarInactiveTintColor:'gray',
+        })}
+      >
         <tab.Screen
           name="HomeTab"
           component={HomeTab}/>
