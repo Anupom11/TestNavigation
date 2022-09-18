@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, Button,} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, TabActions } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 function HomeScreen({navigation}) {
   return (
@@ -51,13 +52,33 @@ function LogoTitle() {
   );
 }
 
+//--------------------------------------------------------------
+// Code section to do the bottom tab navigation
+function HomeTab() {
+  return (
+    <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+      <Text>Home!</Text>
+    </View>
+  );
+}
+
+function SettingsTab() {
+  return (
+    <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+      <Text>Settings!</Text>
+    </View>
+  );
+}
+//--------------------------------------------------------------
+
 const stack = createNativeStackNavigator();
+const tab   = createBottomTabNavigator();
 
 function App() {
   return (
     <NavigationContainer>
       
-      <stack.Navigator 
+      {/* <stack.Navigator 
         initialRouteName='Home'
         screenOptions={{
           headerStyle: {
@@ -72,9 +93,24 @@ function App() {
           name="Home" 
           component={HomeScreen}
           options={{headerTitle:(props)=><LogoTitle {...props}/>}} />
-        <stack.Screen name="Details" component={DetailsScreen} />
-        <stack.Screen name="Settings" component={SettingScreen} options={{ headerShown: false }} />
-      </stack.Navigator>
+        <stack.Screen 
+          name="Details" 
+          component={DetailsScreen} />
+        <stack.Screen 
+          name="Settings" 
+          component={SettingScreen} 
+          options={{ headerShown: false }} />
+      </stack.Navigator> */}
+
+      <tab.Navigator>
+        <tab.Screen
+          name="HomeTab"
+          component={HomeTab}/>
+        
+        <tab.Screen
+          name="SettingsTab"
+          component={SettingsTab}/>
+      </tab.Navigator>
       
     </NavigationContainer>  
   );
