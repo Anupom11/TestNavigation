@@ -53,12 +53,21 @@ function LogoTitle() {
   );
 }
 
+function ProfileScreen() {
+  return (
+    <Text>Profile Screen</Text>
+  );
+}
+
 //--------------------------------------------------------------
 // Code section to do the bottom tab navigation
-function HomeTab() {
+function HomeTab({navigation}) {
   return (
     <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
       <Text>Home!</Text>
+      <Button 
+        title="Goto Setting"
+        onPress={()=>navigation.navigate('SettingsTab')} />
     </View>
   );
 }
@@ -70,15 +79,42 @@ function SettingsTab() {
     </View>
   );
 }
+
+function SettingsScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Settings Screen</Text>
+      <Button
+        title="Go to Profile"
+        onPress={() => navigation.navigate('Profile')}
+      />
+    </View>
+  );
+}
+
+//--------------------------------------------------------------
+
+//--------------------------------------------------------------
+function HomeStack() {
+  return (
+    <tab.Navigator>
+      <tab.Screen name="Home1" component={HomeTab} />
+      <tab.Screen name="Feed" component={SettingScreen} />
+      <tab.Screen name="Notifications" component={SettingsTab} />
+    </tab.Navigator>
+  );
+}
+
 //--------------------------------------------------------------
 
 const stack = createNativeStackNavigator();
 const tab   = createBottomTabNavigator();
+const SettingsStack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      
+    
       {/* <stack.Navigator 
         initialRouteName='Home'
         screenOptions={{
@@ -90,20 +126,22 @@ function App() {
             fontWeight: 'bold',
           },
         }}>
-        <stack.Screen 
-          name="Home" 
-          component={HomeScreen}
-          options={{headerTitle:(props)=><LogoTitle {...props}/>}} />
-        <stack.Screen 
-          name="Details" 
-          component={DetailsScreen} />
-        <stack.Screen 
-          name="Settings" 
-          component={SettingScreen} 
-          options={{ headerShown: false }} />
+        <stack.Group>
+          <stack.Screen 
+            name="Home" 
+            component={HomeScreen}
+            options={{headerTitle:(props)=><LogoTitle {...props}/>}} />
+          <stack.Screen 
+            name="Details" 
+            component={DetailsScreen} />
+          <stack.Screen 
+            name="Settings" 
+            component={SettingScreen} 
+            options={{ headerShown: false }} />
+        </stack.Group>
       </stack.Navigator> */}
 
-      <tab.Navigator
+      {/* <tab.Navigator
         screenOptions={({route})=> ({
           tabBarIcon:({focused, color, size})=> {
             let iconName;
@@ -116,20 +154,50 @@ function App() {
 
             return <Ionicons name={iconName} size={size} color={color}/>
           },
-
+          
           tabBarActiveTintColor:'tomato',
           tabBarInactiveTintColor:'gray',
         })}
       >
         <tab.Screen
           name="HomeTab"
-          component={HomeTab}/>
+          component={HomeTab}
+          options={{tabBarBadge:99}}/>
         
         <tab.Screen
           name="SettingsTab"
           component={SettingsTab}/>
-      </tab.Navigator>
+      </tab.Navigator> */}
       
+      {/* <tab.Navigator>
+        <tab.Screen name="First">
+          {() => (
+            <SettingsStack.Navigator>
+              <SettingsStack.Screen
+                name="Settings"
+                component={SettingsScreen}
+              />
+              <SettingsStack.Screen name="Profile" component={ProfileScreen} />
+            </SettingsStack.Navigator>
+          )}
+        </tab.Screen>
+        <tab.Screen name="Second">
+          {() => (
+            <HomeStack.Navigator>
+              <HomeStack.Screen name="Home" component={HomeScreen} />
+              <HomeStack.Screen name="Details" component={DetailsScreen} />
+            </HomeStack.Navigator>
+          )}
+        </tab.Screen>
+      </tab.Navigator> */}
+
+      <stack.Navigator>
+        <stack.Screen name="Home" component={HomeStack} />
+        <stack.Screen name="Profile" component={ProfileScreen} />
+        <stack.Screen name="Settings" component={SettingsScreen} />
+        <stack.Screen name="SettingsTab" component={SettingsTab}  />
+      </stack.Navigator>
+
     </NavigationContainer>  
   );
 }
