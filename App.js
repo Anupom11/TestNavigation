@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, Button,} from 'react-native';
 import { NavigationContainer, TabActions } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import 'react-native-gesture-handler';
 
@@ -54,9 +55,14 @@ function LogoTitle() {
   );
 }
 
-function ProfileScreen() {
+function ProfileScreen({navigation}) {
   return (
-    <Text>Profile Screen</Text>
+    <View style={{marginStart:20, marginEnd:20}}>
+      <Text>Profile Screen</Text>
+      <Button
+        title='Toggle'
+        onPress={()=>navigation.toggleDrawer()}/>  
+    </View>
   );
 }
 
@@ -108,14 +114,25 @@ function HomeStack() {
 
 //--------------------------------------------------------------
 
-const stack = createNativeStackNavigator();
-const tab   = createBottomTabNavigator();
-const SettingsStack = createNativeStackNavigator();
+// method to enclose drawer navigation
+function DrawerStack() {
+  return (
+    <drawerNavigator.Navigator initialRouteName='Profile'>
+      <drawerNavigator.Screen name ="Home" component={HomeStack}/>
+      <drawerNavigator.Screen name="Profile" component={ProfileScreen}/>
+    </drawerNavigator.Navigator>
+  );
+}
+
+const stack           = createNativeStackNavigator();
+const tab             = createBottomTabNavigator();
+const SettingsStack   = createNativeStackNavigator();
+const drawerNavigator = createDrawerNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-    
+      
       {/* <stack.Navigator 
         initialRouteName='Home'
         screenOptions={{
@@ -192,9 +209,20 @@ function App() {
         </tab.Screen>
       </tab.Navigator> */}
 
-      <stack.Navigator>
+      {/* <drawerNavigator.Navigator>
+        <drawerNavigator.Screen name = "Home" component={HomeStack}/>
+        <drawerNavigator.Screen name= "Profile" component={ProfileScreen}/>
+      </drawerNavigator.Navigator> */}
+
+      {/* <stack.Navigator>
         <stack.Screen name="Home" component={HomeStack} />
         <stack.Screen name="Profile" component={ProfileScreen} />
+        <stack.Screen name="Settings" component={SettingsScreen} />
+        <stack.Screen name="SettingsTab" component={SettingsTab}  />
+      </stack.Navigator> */} 
+
+      <stack.Navigator>
+        <stack.Screen name="Drawer" component={DrawerStack}/>
         <stack.Screen name="Settings" component={SettingsScreen} />
         <stack.Screen name="SettingsTab" component={SettingsTab}  />
       </stack.Navigator>
