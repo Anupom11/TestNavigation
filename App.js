@@ -1,11 +1,27 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, Button,} from 'react-native';
+import React, {useState, useRef} from 'react';
+import {StyleSheet, Text, View, Button, Image, Platform} from 'react-native';
 import { NavigationContainer, TabActions } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import 'react-native-gesture-handler';
+import { WebView } from 'react-native-webview';
+
+import ImageMarker, { Marker } from "react-native-image-marker";
+
+var camera_lens = require('../TestNavigation/img/camera_lens.png');
+
+// require the module
+var RNFS = require('react-native-fs');
+
+const dirHome = Platform.select({
+  ios: `${RNFS.DocumentDirectoryPath}/MPRRAMS`,
+  //android: `${RNFS.PicturesDirectoryPath }/MPRRAMS`
+  android: `${RNFS.DownloadDirectoryPath }/MPRRAMS`
+});
+
+const dirPicutures = `${dirHome}/Pictures`;
 
 function HomeScreen({navigation}) {
   return (
@@ -37,7 +53,7 @@ function DetailsScreen({route, navigation}) {
           <Button title='Go Back' onPress={()=> navigation.goBack()} />
         </View>
       </View>
-  </View>
+    </View>
   );
 }
 
@@ -56,13 +72,113 @@ function LogoTitle() {
 }
 
 function ProfileScreen({navigation}) {
+  ImageMarker.markText({
+    src: camera_lens,
+    text: '26.1158° N, 91.7086° E', 
+    X: 100,
+    Y: 100, 
+    color: '#000000',
+    fontName: 'Arial-BoldItalicMT',
+    fontSize: 15,
+    /* shadowStyle: {
+        dx: 10.0,
+        dy: 0,
+        radius: 5.0,
+        color: '#110011' // '#ff00ffad'
+    }, */
+    /* textBackgroundStyle: {
+        type: 'stretchX',
+        paddingX: 10,
+        paddingY: 10,
+        color: '#0f0' // '#0f0a'
+    }, */
+    scale: 1, 
+    quality: 100
+ }).then((res) => {
+     /* this.setState({
+        loading: false,
+        markResult: res
+     }) */
+
+     // do the move operation of the file to the required location
+     RNFS.moveFile(res, dirPicutures+"/as_12345.jpg")
+     .then(()=> {
+      console.log("Moved: "+dirPicutures+"/as_12345.jpg");
+     })
+     .catch(error=> {
+      console.log("Error:"+error);
+     });
+
+
+    console.log("the path is"+res)
+
+ }).catch((err) => {
+    console.log(err)
+    /* this.setState({
+        loading: false,
+        err
+    }) */
+ })
+
   return (
     <View style={{marginStart:20, marginEnd:20}}>
       <Text>Profile Screen</Text>
       <Button
         title='Toggle'
-        onPress={()=>navigation.toggleDrawer()}/>  
+        onPress={()=>navigation.toggleDrawer()}/>
+        {/* <Image
+         style={{width:300, height:300, marginTop:20}}
+          source={camera_lens}/> */}
+        <Image
+          style={{width:300, height:300, marginTop:20}}
+          source={{uri:'file:///data/user/0/com.testnavigation/cache/6a7a4a93-3f59-4b56-8f8e-b3e00b44c1c9imagemarker.jpg'}}/>
     </View>
+  );
+
+}
+
+function printImage(imageName) {
+  var fileName = 'file://'+imageName;
+
+  console.log("ImageName: "+fileName);
+
+  return (
+    <View style={{marginStart:20, marginEnd:20}}>
+      <Text>Hello Profile Screen</Text>
+      <Button
+        title='Toggle Hello'
+        onPress={()=>navigation.toggleDrawer()}/>  
+        <Image
+         style={{width:300, height:300, marginTop:20}}
+          source={{uri:fileName}}/>
+         
+    </View>
+  );
+}
+
+const _onNavigationStateChange=(webViewState)=> {
+  console.log(webViewState.url);
+  //setWebView(webViewState.url);
+}
+
+function Report({navigation}) {
+  const webViewRef = useRef(null);
+
+  return (
+    <WebView
+          ref={webViewRef}
+          source={{ uri: "https://anupom11.github.io/" }}
+          style={{ marginTop: 2 }}
+          onNavigationStateChange={_onNavigationStateChange.bind(this)}
+          cacheEnabled={false}
+
+          /* onLoadProgress={() => { setLoaderText('loading in progress...') }}
+          onLoadEnd={() => { setLoading(false); }} */
+                    
+          onError={(err) => { setLoading(false); Alert.alert('Error On Page Loading','Please check your internet and try again!\nerr ' + err,[{text:'OK',style:'destructive',onPress:()=>{navigation.goBack()}}]) }}
+          onHttpError={(err) => { setLoading(false); Alert.alert('HTTP Error!','http err ' + err) }}
+
+        />
   );
 }
 
@@ -79,7 +195,12 @@ function HomeTab({navigation}) {
   );
 }
 
-function SettingsTab() {
+function SettingsTab({route, navigation}) {
+  const {name} = route.params;
+  var uriVal = "'"+name+"'";
+
+  console.log("Val:"+uriVal);
+
   return (
     <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
       <Text>Settings!</Text>
@@ -108,6 +229,7 @@ function HomeStack() {
       <tab.Screen name="Home1" component={HomeTab} />
       <tab.Screen name="Feed" component={SettingScreen} />
       <tab.Screen name="Notifications" component={SettingsTab} />
+      <tab.Screen name="Report" component={Report}  />
     </tab.Navigator>
   );
 }
@@ -130,6 +252,7 @@ const SettingsStack   = createNativeStackNavigator();
 const drawerNavigator = createDrawerNavigator();
 
 function App() {
+
   return (
     <NavigationContainer>
       
@@ -224,7 +347,7 @@ function App() {
       <stack.Navigator>
         <stack.Screen name="Drawer" component={DrawerStack}/>
         <stack.Screen name="Settings" component={SettingsScreen} />
-        <stack.Screen name="SettingsTab" component={SettingsTab}  />
+        <stack.Screen name="SettingsTab" component={SettingsTab}   />
       </stack.Navigator>
 
     </NavigationContainer>  
