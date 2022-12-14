@@ -10,11 +10,16 @@ import { WebView } from 'react-native-webview';
 
 import ImageMarker, { Marker } from "react-native-image-marker";
 
+import SignIn from './source/SignIn';
+import { Header } from 'react-native/Libraries/NewAppScreen';
+
 var camera_lens = require('../TestNavigation/img/camera_lens.png');
 
 // require the module
 var RNFS = require('react-native-fs');
 
+//-------------------------------------------------------
+// code section to get the directory address
 const dirHome = Platform.select({
   ios: `${RNFS.DocumentDirectoryPath}/MPRRAMS`,
   //android: `${RNFS.PicturesDirectoryPath }/MPRRAMS`
@@ -22,6 +27,7 @@ const dirHome = Platform.select({
 });
 
 const dirPicutures = `${dirHome}/Pictures`;
+//-------------------------------------------------------
 
 function HomeScreen({navigation}) {
   return (
@@ -137,25 +143,6 @@ function ProfileScreen({navigation}) {
 
 }
 
-function printImage(imageName) {
-  var fileName = 'file://'+imageName;
-
-  console.log("ImageName: "+fileName);
-
-  return (
-    <View style={{marginStart:20, marginEnd:20}}>
-      <Text>Hello Profile Screen</Text>
-      <Button
-        title='Toggle Hello'
-        onPress={()=>navigation.toggleDrawer()}/>  
-        <Image
-         style={{width:300, height:300, marginTop:20}}
-          source={{uri:fileName}}/>
-         
-    </View>
-  );
-}
-
 const _onNavigationStateChange=(webViewState)=> {
   console.log(webViewState.url);
   //setWebView(webViewState.url);
@@ -195,12 +182,7 @@ function HomeTab({navigation}) {
   );
 }
 
-function SettingsTab({route, navigation}) {
-  const {name} = route.params;
-  var uriVal = "'"+name+"'";
-
-  console.log("Val:"+uriVal);
-
+function SettingsTab({navigation}) {
   return (
     <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
       <Text>Settings!</Text>
@@ -225,7 +207,7 @@ function SettingsScreen({ navigation }) {
 //--------------------------------------------------------------
 function HomeStack() {
   return (
-    <tab.Navigator>
+    <tab.Navigator screenOptions={{headerShown:false}}>
       <tab.Screen name="Home1" component={HomeTab} />
       <tab.Screen name="Feed" component={SettingScreen} />
       <tab.Screen name="Notifications" component={SettingsTab} />
@@ -242,6 +224,7 @@ function DrawerStack() {
     <drawerNavigator.Navigator initialRouteName='Profile'>
       <drawerNavigator.Screen name ="Home" component={HomeStack}/>
       <drawerNavigator.Screen name="Profile" component={ProfileScreen}/>
+      <drawerNavigator.Screen name="Sign in" component={SignIn}  />
     </drawerNavigator.Navigator>
   );
 }
@@ -344,10 +327,21 @@ function App() {
         <stack.Screen name="SettingsTab" component={SettingsTab}  />
       </stack.Navigator> */} 
 
-      <stack.Navigator>
+      <stack.Navigator 
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          headerShown:false
+        }}>
         <stack.Screen name="Drawer" component={DrawerStack}/>
         <stack.Screen name="Settings" component={SettingsScreen} />
         <stack.Screen name="SettingsTab" component={SettingsTab}   />
+        <stack.Screen name="SignIn" component={SignIn}  />
       </stack.Navigator>
 
     </NavigationContainer>  
