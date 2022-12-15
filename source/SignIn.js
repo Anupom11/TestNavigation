@@ -1,13 +1,42 @@
 import React, {useState, useRef} from 'react';
-import {StyleSheet, Text, View, TextInput, Button, Image, Platform, StatusBar} from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {
+    StyleSheet, 
+    Text, 
+    View, 
+    TextInput, 
+    Button, 
+    Image, 
+    Platform, 
+    StatusBar, 
+    TouchableOpacity
+} from 'react-native';
+
+import AuthContext from "../source/appContext";    
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
+import 'react-native-gesture-handler';
+
 var app_logo = require('../../TestNavigation/img/camera_lens.png');
 
-function SignIn() {
+function SignIn({navigation}) {
+
+    const {signIn, signOut, signUp} = React.useContext(AuthContext);
+
+    const [userEmail, setUserEmail]     = useState('');
+    const [userPasswd, setUserPasswd]   = useState('');
+
+    function doSignInOp() {
+        if(userEmail != '' || userPasswd != '') {
+            signIn(userEmail, userPasswd);
+        }
+        else {
+            alert("Please enter the details!");
+        }
+    }
+
     return (
+        <>
         <View style={styleSheet.container}>
 
             <StatusBar style="auto"/>
@@ -17,7 +46,7 @@ function SignIn() {
                     style={styleSheet.logoView} 
                     source={app_logo}/>
             </View>
-            
+
             <View style={{alignSelf:'center', marginTop:50, width:'80%', flex:1}}>
 
                 <Text style={{fontSize:20, color:'#000000', marginBottom:20, fontWeight:'bold'}}>Welcome</Text>
@@ -26,6 +55,7 @@ function SignIn() {
                     <TextInput 
                         style={styleSheet.textInput} 
                         keyboardType={'email-address'}
+                        onChangeText={(text)=>setUserEmail(text)}
                         placeholder='Email'/>
                 </View>
                 <View style={styleSheet.inputView}>
@@ -33,11 +63,14 @@ function SignIn() {
                         style={styleSheet.textInput} 
                         keyboardType={'default'}
                         placeholder='Password' 
+                        onChangeText={(text)=>setUserPasswd(text)}
                         secureTextEntry={true}/>
                 </View>
                 
                 <View style={{marginTop: 20,}}>
-                    <TouchableOpacity style={styleSheet.loginButton}>
+                    <TouchableOpacity 
+                        style={styleSheet.loginButton}
+                        onPress={()=> doSignInOp() }>
                         <Text style={{color:'#ffffff', fontSize:16}}>Sign In</Text>
                     </TouchableOpacity>
                 </View>
@@ -66,8 +99,11 @@ function SignIn() {
             </View>
 
         </View>
+        </>
     )
 }
+
+export default SignIn;
 
 const styleSheet = StyleSheet.create({
     container: {
@@ -127,4 +163,3 @@ const styleSheet = StyleSheet.create({
     },
 });
 
-export default SignIn;

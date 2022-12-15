@@ -10,12 +10,14 @@ export default function MainApp({ navigation }) {
     (prevState, action) => {
       switch (action.type) {
         case 'RESTORE_TOKEN':
+          {console.log("TOken1:"+action.token)}
           return {
             ...prevState,
             userToken: action.token,
             isLoading: false,
           };
         case 'SIGN_IN':
+          {console.log("TOken:"+action.token)}
           return {
             ...prevState,
             isSignout: false,
@@ -64,7 +66,8 @@ export default function MainApp({ navigation }) {
         // We will also need to handle errors if sign in failed
         // After getting token, we need to persist the token using `SecureStore`
         // In the example, we'll use a dummy token
-        console.log("Signin");
+        console.log("Signin:"+data.userEmail, data.userPasswd);
+        //dispatch({ type: 'LOAD', loading: true, txt: 'auth check...' });
         dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
       },
       signOut: () => {
