@@ -331,14 +331,14 @@ function App() {
       <stack.Navigator 
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#f4511e',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-          headerShown:true
-        }}>
+          backgroundColor: '#f4511e',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerShown:true  
+      }}>
         <stack.Screen name="Drawer" component={DrawerStack}/>
         <stack.Screen name="Settings" component={SettingsScreen} />
         <stack.Screen name="SettingsTab" component={SettingsTab}   />

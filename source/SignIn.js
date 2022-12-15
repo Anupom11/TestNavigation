@@ -75,9 +75,9 @@ const styleSheet = StyleSheet.create({
         backgroundColor: '#fff',
     },
     logoView: {
-        width: 50,
-        height: 50, 
-        marginTop: 20,
+        width: 60,
+        height: 60, 
+        marginTop: 40,
         shadowColor: '#9f9fa1',
         alignContent:'center', 
         alignItems:'center', 
