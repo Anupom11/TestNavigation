@@ -12,9 +12,11 @@ function SignIn() {
 
             <StatusBar style="auto"/>
 
-            <Image 
-                style={styleSheet.logoView} 
-                source={app_logo}/>
+            <View style={{flexDirection:'row', justifyContent:'center'}}>                
+                <Image 
+                    style={styleSheet.logoView} 
+                    source={app_logo}/>
+            </View>
             
             <View style={{alignSelf:'center', marginTop:50, width:'80%', flex:1}}>
 
@@ -46,12 +48,21 @@ function SignIn() {
                     </TouchableOpacity>
                 </View>
 
-                <View style={{alignItems:'center', marginTop:10}}>
+                <View style={{alignItems:'center', marginTop:25}}>
                     <GoogleSigninButton
+                        style={{width:200, height:50}}
                         size={GoogleSigninButton.Size.Wide}
                         color={GoogleSigninButton.Color.Light}/>
                 </View>
 
+            </View>
+
+            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                <View style={styleSheet.semiCircle1}></View> 
+                
+                <View style={{width:10}}></View>
+                
+                <View style={[styleSheet.semiCircle2, {width:100}]}></View>
             </View>
 
         </View>
@@ -64,11 +75,13 @@ const styleSheet = StyleSheet.create({
         backgroundColor: '#fff',
     },
     logoView: {
-        width: 100,
-        height: 100, 
+        width: 50,
+        height: 50, 
         marginTop: 20,
         shadowColor: '#9f9fa1',
-        alignSelf: 'center',
+        alignContent:'center', 
+        alignItems:'center', 
+        alignSelf:'center',
     },
     inputView: {
         backgroundColor: "#f5f5fa",
@@ -90,7 +103,28 @@ const styleSheet = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#f73e05",
-    }
+    },
+    square: {
+        height:100,
+        width:50,
+        backgroundColor:'#f73e05',
+    },
+    semiCircle1: {
+        width: 60,
+        height: 50,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius:50,
+        backgroundColor: '#fab7a2',
+        marginTop:70,
+    },
+    semiCircle2: {
+        width: 100,
+        height: 100,
+        marginTop:20,
+        borderTopLeftRadius: 100,
+        borderBottomLeftRadius:0,
+        backgroundColor: '#fab7a2',
+    },
 });
 
 export default SignIn;
