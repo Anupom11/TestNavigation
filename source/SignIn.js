@@ -28,7 +28,12 @@ function SignIn({navigation}) {
 
     function doSignInOp() {
         if(userEmail != '' || userPasswd != '') {
-            signIn(userEmail, userPasswd);
+            var userDetails = { 
+                email: userEmail,
+                password: userPasswd
+            };
+
+            signIn(userDetails);
         }
         else {
             alert("Please enter the details!");
