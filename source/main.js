@@ -5,6 +5,11 @@ import AuthContext from './appContext';
 import SignIn from '../source/signIn';
 import App from '../App';
 
+import {initStore} from './redux/store';
+import {Provider} from 'react-redux';
+
+const store = initStore();
+
 export default function MainApp({ navigation }) {
 
   const [state, dispatch] = React.useReducer(
@@ -43,7 +48,11 @@ export default function MainApp({ navigation }) {
       let userToken;
 
       try {
-        userToken = await SecureStore.getItemAsync('userToken');
+        //userToken = await SecureStore.getItemAsync('userToken');
+        
+        // Right now bypass the login operation
+        userToken = 'dummy-auth-token';
+
       } catch (e) {
         // Restoring token failed
       }
@@ -66,14 +75,13 @@ export default function MainApp({ navigation }) {
         // After getting token, we need to persist the token using `SecureStore`
         // In the example, we'll use a dummy token
 
-        console.log("Signin:"+data.email, data.password);
-
         dispatch({ type: 'LOAD', loading: true, txt: 'auth check...' });
 
         if(data.email == 'email' && data.password == 'password') {
           dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
         }
         else {
+          alert("Wrong credentials");
           dispatch({type: 'SIGN_OUT' });
         }
 
@@ -94,15 +102,18 @@ export default function MainApp({ navigation }) {
   );
 
   return (
-    <AuthContext.Provider value={authContext}>
+    <Provider store={store}>
+      <AuthContext.Provider value={authContext}>
         {
             state.userToken == null ? (
-                <SignIn/>
+              <SignIn/>
             ) : (
                 <App/>
             )
         }
-    </AuthContext.Provider>
+      </AuthContext.Provider>
+    </Provider>
   );
 
 }
+

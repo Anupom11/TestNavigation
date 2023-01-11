@@ -13,6 +13,8 @@ import ImageMarker, { Marker } from "react-native-image-marker";
 import SignIn from './source/signIn';
 import { Header } from 'react-native/Libraries/NewAppScreen';
 
+import Notepad from './source/notepad';
+
 var camera_lens = require('../TestNavigation/img/camera_lens.png');
 
 // require the module
@@ -226,6 +228,7 @@ function DrawerStack() {
       <drawerNavigator.Screen name ="Home" component={HomeStack}/>
       <drawerNavigator.Screen name="Profile" component={ProfileScreen}/>
       <drawerNavigator.Screen name="Sign in" component={SignIn}  />
+      <drawerNavigator.Screen name="Notepad" component={Notepad}  />
     </drawerNavigator.Navigator>
   );
 }
@@ -337,7 +340,7 @@ function App() {
         headerTitleStyle: {
           fontWeight: 'bold',
         },
-        headerShown:true  
+        headerShown:false  
       }}>
         <stack.Screen name="Drawer" component={DrawerStack}/>
         <stack.Screen name="Settings" component={SettingsScreen} />
