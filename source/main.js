@@ -5,10 +5,8 @@ import AuthContext from './appContext';
 import SignIn from '../source/signIn';
 import App from '../App';
 
-import {initStore} from './redux/store';
 import {Provider} from 'react-redux';
-
-const store = initStore();
+import {store} from './redux/store';
 
 export default function MainApp({ navigation }) {
 

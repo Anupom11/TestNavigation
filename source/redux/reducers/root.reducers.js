@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux';
-import test from '../reducers/test.reducers';
+import textCounter from '../reducers/test.reducers';
+import test1 from './test1.reducers';
 
 export default combineReducers({
-    test
+    textCounter: textCounter, test1:test1
 });
