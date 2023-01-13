@@ -1,8 +1,8 @@
-import {TEST_ACTION} from '../actions/Index.actions';
+import {TITLE_TEXT_COUNT} from '../actions/Index.actions';
 
 const test1 = (state = {}, action) => {
   switch (action.type) {
-  case TEST_ACTION: {
+  case TITLE_TEXT_COUNT: {
     //return action.payload;
     return "hello new world ";
   }

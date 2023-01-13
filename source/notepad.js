@@ -2,7 +2,7 @@ import { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 
 import { useSelector, useDispatch } from 'react-redux';
-import { bodyTextCount} from "./redux/actions/Index.actions";
+import { bodyTextCount, titleTextCount} from "./redux/actions/Index.actions";
 
 import styles from './Notepad.component.style';
 
@@ -16,9 +16,11 @@ export default function Notepad() {
     const dispatch = useDispatch();
     
     const  bodyTextCountVal = useSelector((store)=> store.textCounter);
-
+    
     const processText=(text)=> {
         setNoteBody(text);
+
+        dispatch(titleTextCount(text.length));
         dispatch(bodyTextCount(text.length));
     }
 
@@ -33,9 +35,7 @@ export default function Notepad() {
 
     return (
         <View style={styles.container}>
-            {
-                console.log("BodyText:"+JSON.stringify(bodyTextCountVal))
-            }
+            
             <Text style={styles.heading1}>Note title</Text>
             <View style={styles.inputView1}>
                 <TextInput
@@ -66,9 +66,9 @@ export default function Notepad() {
             </View>
             
             {
-                body_char_count != '' ?
+                bodyTextCountVal != '' ?
                     <View style={{alignSelf:"flex-end"}}>
-                        <Text>{body_char_count} characters</Text>
+                        <Text>{bodyTextCountVal} characters</Text>
                     </View>
                 :
                  null
