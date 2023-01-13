@@ -1,7 +1,7 @@
 
 import {TITLE_TEXT_COUNT, BODY_TEXT_COUNT} from '../actions/Index.actions';
 
-const textCounter = (state = '', action) => {
+const textBodyCounter = (state = '', action) => {
   switch (action.type) {
     case TITLE_TEXT_COUNT: {
       return action.payload;
@@ -14,5 +14,5 @@ const textCounter = (state = '', action) => {
   }
 };
 
-export default textCounter;
+export default textBodyCounter;
 

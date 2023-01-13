@@ -1,9 +1,9 @@
 import {combineReducers} from 'redux';
 
-import textCounter from './Body.reducers';
-import test1 from './Title.reducers';
+import textBodyCounter from './Body.reducers';
+import textTitleCounter from './Title.reducers';
 
 export default combineReducers({
-    textCounter: textCounter, test1:test1
+    textBodyCounter: textBodyCounter, textTitleCounter:textTitleCounter
 });
 

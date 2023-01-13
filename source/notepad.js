@@ -15,12 +15,16 @@ export default function Notepad() {
 
     const dispatch = useDispatch();
     
-    const  bodyTextCountVal = useSelector((store)=> store.textCounter);
+    const titleTextCountVal = useSelector((store)=> store.textTitleCounter);
+    const bodyTextCountVal  = useSelector((store)=> store.textBodyCounter);
     
-    const processText=(text)=> {
-        setNoteBody(text);
-
+    const processTitleText=(text)=> {
+        setNoteTitle(text);
         dispatch(titleTextCount(text.length));
+    }
+
+    const processBodyText=(text)=> {
+        setNoteBody(text);
         dispatch(bodyTextCount(text.length));
     }
 
@@ -39,7 +43,7 @@ export default function Notepad() {
             <Text style={styles.heading1}>Note title</Text>
             <View style={styles.inputView1}>
                 <TextInput
-                    onChangeText={(text)=> setNoteTitle(text)}
+                    onChangeText={(text)=> processTitleText(text)}
                     multiline={true}
                     maxLength={100}
                     editable={true}
@@ -47,9 +51,9 @@ export default function Notepad() {
             </View>
 
             {
-                title_char_count != '' ?
+                titleTextCountVal != '' ?
                     <View style={{alignSelf:"flex-end"}}>
-                        <Text>{title_char_count} characters</Text>
+                        <Text>{titleTextCountVal} characters</Text>
                     </View>
                 :
                     null
@@ -58,7 +62,7 @@ export default function Notepad() {
             <Text style={[styles.heading1, {marginTop:20}]}>Note body</Text>
             <View style={styles.inputView2}>
                 <TextInput
-                    onChangeText={(text)=> processText(text)}
+                    onChangeText={(text)=> processBodyText(text)}
                     multiline={true}
                     maxLength={500}
                     editable={true}
