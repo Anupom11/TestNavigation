@@ -1,7 +1,7 @@
 import {createStore, combineReducers, compose/* , applyMiddleware*/} from 'redux';
 // import someReduxMiddleware from 'some-redux-middleware';
 // import someOtherReduxMiddleware from 'some-other-redux-middleware';
-import rootReducer from '../redux/reducers/root.reducers';
+import rootReducer from './reducers/Root.reducers';
 
 export const store = createStore(rootReducer);
 

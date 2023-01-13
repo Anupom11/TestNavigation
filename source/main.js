@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as SecureStore from 'expo-secure-store';
 
-import AuthContext from './appContext';
-import SignIn from '../source/signIn';
+import AuthContext from './AppContext';
+import SignIn from './SignIn';
 import App from '../App';
 
 import {Provider} from 'react-redux';
-import {store} from './redux/store';
+import {store} from './redux/Store';
 
 export default function MainApp({ navigation }) {
 

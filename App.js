@@ -10,10 +10,10 @@ import { WebView } from 'react-native-webview';
 
 import ImageMarker, { Marker } from "react-native-image-marker";
 
-import SignIn from './source/signIn';
+import SignIn from './source/SignIn';
 import { Header } from 'react-native/Libraries/NewAppScreen';
 
-import Notepad from './source/notepad';
+import Notepad from './source/Notepad';
 
 var camera_lens = require('../TestNavigation/img/camera_lens.png');
 

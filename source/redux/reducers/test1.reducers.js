@@ -1,4 +1,4 @@
-import {TEST_ACTION} from '../actions/index.actions';
+import {TEST_ACTION} from '../actions/Index.actions';
 
 const test1 = (state = {}, action) => {
   switch (action.type) {

@@ -11,7 +11,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import AuthContext from "../source/appContext";    
+import AuthContext from "./AppContext";    
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
