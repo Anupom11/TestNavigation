@@ -106,7 +106,7 @@ export default function MainApp({ navigation }) {
             state.userToken == null ? (
               <SignIn/>
             ) : (
-                <App/>
+              <App/>
             )
         }
       </AuthContext.Provider>
