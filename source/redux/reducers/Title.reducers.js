@@ -1,4 +1,4 @@
-import {TITLE_TEXT_COUNT} from '../actions/Index.actions';
+import {TITLE_TEXT_COUNT} from '../actions/index.actions';
 
 const textTitleCounter = (state = '', action) => {
   switch (action.type) {

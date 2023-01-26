@@ -13,7 +13,9 @@ import ImageMarker, { Marker } from "react-native-image-marker";
 import SignIn from './source/SignIn';
 import { Header } from 'react-native/Libraries/NewAppScreen';
 
-import Notepad from './source/Notepad';
+//import Notepad from './source/Notepad';
+
+import Notepad from '../TestNavigation/source/notepad';
 
 var camera_lens = require('../TestNavigation/img/camera_lens.png');
 

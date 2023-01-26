@@ -2,7 +2,7 @@ import { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 
 import { useSelector, useDispatch } from 'react-redux';
-import { bodyTextCount, titleTextCount} from "./redux/actions/Index.actions";
+import { bodyTextCount, titleTextCount} from "./redux/actions/index.actions";
 
 import styles from './Notepad.component.style';
 
