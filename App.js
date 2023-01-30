@@ -342,7 +342,8 @@ function App() {
         headerTitleStyle: {
           fontWeight: 'bold',
         },
-        headerShown:false  
+        headerShown:false,
+        initialRouteName:"Settings"
       }}>
         <stack.Screen name="Drawer" component={DrawerStack}/>
         <stack.Screen name="Settings" component={SettingsScreen} />
