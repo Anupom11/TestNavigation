@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as SecureStore from 'expo-secure-store';
 
-import AuthContext from './appContext';
+import AuthContext from './AppContext';
 import SignIn from './SignIn';
 import App from '../App';
 

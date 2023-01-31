@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 //import AuthContext from "./AppContext";  
-import AuthContext from '../source/appContext';
+import AuthContext from '../source/AppContext';
 
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';

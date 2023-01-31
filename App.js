@@ -1,9 +1,9 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {StyleSheet, Text, View, Button, Image, Platform} from 'react-native';
 import { NavigationContainer, TabActions } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import 'react-native-gesture-handler';
 import { WebView } from 'react-native-webview';
@@ -181,14 +181,26 @@ function HomeTab({navigation}) {
       <Text>Home!</Text>
       <Button 
         title="Goto Setting"
-        onPress={()=>navigation.navigate('SettingsTab')} />
+        onPress={()=> navigation.navigate('SettingsTab', {data:"Hello Dynamic"})} />
     </View>
   );
 }
 
-function SettingsTab({navigation}) {
+function SettingsTab({route, navigation}) {
+
+  const {data} = route.params;
+
+  console.log("Data::"+data+"::")
+
+  useEffect(()=> {
+    //const item = navigation.state.params.data;
+  });
+
   return (
     <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+      {
+        //console.log("Naviagtion:"+navigation.state.params)
+      }
       <Text>Settings!</Text>
     </View>
   );
@@ -212,7 +224,14 @@ function SettingsScreen({ navigation }) {
 function HomeStack() {
   return (
     <tab.Navigator screenOptions={{headerShown:false}}>
-      <tab.Screen name="Home1" component={HomeTab} />
+      <tab.Screen 
+        name="Home1" 
+        component={HomeTab}
+        options={{
+          tabBarIcon:({color, size})=> (
+            <Ionicons name="home" color={color} size={size} />
+          ),
+        }} />
       <tab.Screen name="Feed" component={SettingScreen} />
       <tab.Screen name="Notifications" component={SettingsTab} />
       <tab.Screen name="Report" component={Report}  />
@@ -342,12 +361,22 @@ function App() {
         headerTitleStyle: {
           fontWeight: 'bold',
         },
-        headerShown:false,
+        headerShown:true,
         initialRouteName:"Settings"
       }}>
-        <stack.Screen name="Drawer" component={DrawerStack}/>
+        <stack.Screen name="Drawer" component={DrawerStack} options={{headerShown:false}}/>
         <stack.Screen name="Settings" component={SettingsScreen} />
-        <stack.Screen name="SettingsTab" component={SettingsTab}   />
+        <stack.Screen 
+          name="SettingsTab" 
+          component={SettingsTab}
+          options={({route, navigation})=> {
+            const catid= route.params.data;
+            return {
+              title: catid
+            };
+          }}   
+        />
+
         <stack.Screen name="SignIn" component={SignIn}  />
       </stack.Navigator>
 

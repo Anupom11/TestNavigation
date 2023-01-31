@@ -1,5 +1,5 @@
 
-import {TITLE_TEXT_COUNT, BODY_TEXT_COUNT} from '../actions/index.actions';
+import {TITLE_TEXT_COUNT, BODY_TEXT_COUNT} from '../actions/Index.actions';
 
 const textBodyCounter = (state = '', action) => {
   switch (action.type) {
