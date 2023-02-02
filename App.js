@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useContext} from 'react';
 import {StyleSheet, Text, View, Button, Image, Platform} from 'react-native';
 import { NavigationContainer, TabActions } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -16,6 +16,9 @@ import { Header } from 'react-native/Libraries/NewAppScreen';
 //import Notepad from './source/Notepad';
 
 import Notepad from '../TestNavigation/source/notepad';
+
+import FavoritesContextProvider from './source/context/Favorite-context';
+import { FavoriteContext } from './source/context/Favorite-context';
 
 var camera_lens = require('../TestNavigation/img/camera_lens.png');
 
@@ -190,18 +193,33 @@ function SettingsTab({route, navigation}) {
 
   const {data} = route.params;
 
-  console.log("Data::"+data+"::")
+  const favMealCtx = useContext(FavoriteContext);
 
   useEffect(()=> {
-    //const item = navigation.state.params.data;
+    
   });
+
+  const addFavoriteMeal=()=> {
+    console.log("Add Op");
+    favMealCtx.addFavorite(1);
+  }
+
+  const viewFavoriteMeal=()=> {
+    console.log("Meal ID:"+favMealCtx.ids);
+  }
 
   return (
     <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-      {
-        //console.log("Naviagtion:"+navigation.state.params)
-      }
       <Text>Settings!</Text>
+      
+      <Button
+        title="Add Favorite"
+        onPress={()=> addFavoriteMeal()} />
+
+      <Button
+        title="View Favorite"
+        onPress={()=> viewFavoriteMeal()} />
+
     </View>
   );
 }
@@ -260,127 +278,128 @@ const SettingsStack   = createNativeStackNavigator();
 const drawerNavigator = createDrawerNavigator();
 
 function App() {
-
   return (
-    <NavigationContainer>
-      
-      {/* <stack.Navigator 
-        initialRouteName='Home'
-        screenOptions={{
-          headerStyle: {
+    <FavoritesContextProvider>
+      <NavigationContainer>
+        
+        {/* <stack.Navigator 
+          initialRouteName='Home'
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}>
+          <stack.Group>
+            <stack.Screen 
+              name="Home" 
+              component={HomeScreen}
+              options={{headerTitle:(props)=><LogoTitle {...props}/>}} />
+            <stack.Screen 
+              name="Details" 
+              component={DetailsScreen} />
+            <stack.Screen 
+              name="Settings" 
+              component={SettingScreen} 
+              options={{ headerShown: false }} />
+          </stack.Group>
+        </stack.Navigator> */}
+
+        {/* <tab.Navigator
+          screenOptions={({route})=> ({
+            tabBarIcon:({focused, color, size})=> {
+              let iconName;
+              if(route.name === 'HomeTab') {
+                iconName = focused ? 'add-circle' : 'add-circle';
+              }
+              else if(route.name === 'SettingsTab') {
+                iconName = focused ? 'alarm' : 'alarm';
+              }
+
+              return <Ionicons name={iconName} size={size} color={color}/>
+            },
+            
+            tabBarActiveTintColor:'tomato',
+            tabBarInactiveTintColor:'gray',
+          })}
+        >
+          <tab.Screen
+            name="HomeTab"
+            component={HomeTab}
+            options={{tabBarBadge:99}}/>
+          
+          <tab.Screen
+            name="SettingsTab"
+            component={SettingsTab}/>
+        </tab.Navigator> */}
+        
+        {/* <tab.Navigator>
+          <tab.Screen name="First">
+            {() => (
+              <SettingsStack.Navigator>
+                <SettingsStack.Screen
+                  name="Settings"
+                  component={SettingsScreen}
+                />
+                <SettingsStack.Screen name="Profile" component={ProfileScreen} />
+              </SettingsStack.Navigator>
+            )}
+          </tab.Screen>
+          <tab.Screen name="Second">
+            {() => (
+              <HomeStack.Navigator>
+                <HomeStack.Screen name="Home" component={HomeScreen} />
+                <HomeStack.Screen name="Details" component={DetailsScreen} />
+              </HomeStack.Navigator>
+            )}
+          </tab.Screen>
+        </tab.Navigator> */}
+
+        {/* <drawerNavigator.Navigator>
+          <drawerNavigator.Screen name = "Home" component={HomeStack}/>
+          <drawerNavigator.Screen name= "Profile" component={ProfileScreen}/>
+        </drawerNavigator.Navigator> */}
+
+        {/* <stack.Navigator>
+          <stack.Screen name="Home" component={HomeStack} />
+          <stack.Screen name="Profile" component={ProfileScreen} />
+          <stack.Screen name="Settings" component={SettingsScreen} />
+          <stack.Screen name="SettingsTab" component={SettingsTab}  />
+        </stack.Navigator> */} 
+
+        <stack.Navigator 
+          screenOptions={{
+            headerStyle: {
             backgroundColor: '#f4511e',
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
             fontWeight: 'bold',
           },
+          headerShown:true,
+          initialRouteName:"Settings"
         }}>
-        <stack.Group>
+          <stack.Screen name="Drawer" component={DrawerStack} options={{headerShown:false}}/>
+          <stack.Screen name="Settings" component={SettingsScreen} />
           <stack.Screen 
-            name="Home" 
-            component={HomeScreen}
-            options={{headerTitle:(props)=><LogoTitle {...props}/>}} />
-          <stack.Screen 
-            name="Details" 
-            component={DetailsScreen} />
-          <stack.Screen 
-            name="Settings" 
-            component={SettingScreen} 
-            options={{ headerShown: false }} />
-        </stack.Group>
-      </stack.Navigator> */}
+            name="SettingsTab" 
+            component={SettingsTab}
+            options={({route, navigation})=> {
+              const catid= route.params.data;
+              return {
+                title: catid
+              };
+            }}   
+          />
 
-      {/* <tab.Navigator
-        screenOptions={({route})=> ({
-          tabBarIcon:({focused, color, size})=> {
-            let iconName;
-            if(route.name === 'HomeTab') {
-              iconName = focused ? 'add-circle' : 'add-circle';
-            }
-            else if(route.name === 'SettingsTab') {
-              iconName = focused ? 'alarm' : 'alarm';
-            }
+          <stack.Screen name="SignIn" component={SignIn}  />
+        </stack.Navigator>
 
-            return <Ionicons name={iconName} size={size} color={color}/>
-          },
-          
-          tabBarActiveTintColor:'tomato',
-          tabBarInactiveTintColor:'gray',
-        })}
-      >
-        <tab.Screen
-          name="HomeTab"
-          component={HomeTab}
-          options={{tabBarBadge:99}}/>
-        
-        <tab.Screen
-          name="SettingsTab"
-          component={SettingsTab}/>
-      </tab.Navigator> */}
-      
-      {/* <tab.Navigator>
-        <tab.Screen name="First">
-          {() => (
-            <SettingsStack.Navigator>
-              <SettingsStack.Screen
-                name="Settings"
-                component={SettingsScreen}
-              />
-              <SettingsStack.Screen name="Profile" component={ProfileScreen} />
-            </SettingsStack.Navigator>
-          )}
-        </tab.Screen>
-        <tab.Screen name="Second">
-          {() => (
-            <HomeStack.Navigator>
-              <HomeStack.Screen name="Home" component={HomeScreen} />
-              <HomeStack.Screen name="Details" component={DetailsScreen} />
-            </HomeStack.Navigator>
-          )}
-        </tab.Screen>
-      </tab.Navigator> */}
-
-      {/* <drawerNavigator.Navigator>
-        <drawerNavigator.Screen name = "Home" component={HomeStack}/>
-        <drawerNavigator.Screen name= "Profile" component={ProfileScreen}/>
-      </drawerNavigator.Navigator> */}
-
-      {/* <stack.Navigator>
-        <stack.Screen name="Home" component={HomeStack} />
-        <stack.Screen name="Profile" component={ProfileScreen} />
-        <stack.Screen name="Settings" component={SettingsScreen} />
-        <stack.Screen name="SettingsTab" component={SettingsTab}  />
-      </stack.Navigator> */} 
-
-      <stack.Navigator 
-        screenOptions={{
-          headerStyle: {
-          backgroundColor: '#f4511e',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-        headerShown:true,
-        initialRouteName:"Settings"
-      }}>
-        <stack.Screen name="Drawer" component={DrawerStack} options={{headerShown:false}}/>
-        <stack.Screen name="Settings" component={SettingsScreen} />
-        <stack.Screen 
-          name="SettingsTab" 
-          component={SettingsTab}
-          options={({route, navigation})=> {
-            const catid= route.params.data;
-            return {
-              title: catid
-            };
-          }}   
-        />
-
-        <stack.Screen name="SignIn" component={SignIn}  />
-      </stack.Navigator>
-
-    </NavigationContainer>  
+      </NavigationContainer>  
+    </FavoritesContextProvider>
   );
 }
 

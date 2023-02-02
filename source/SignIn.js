@@ -14,7 +14,6 @@ import {
 //import AuthContext from "./AppContext";  
 import AuthContext from '../source/AppContext';
 
-
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
