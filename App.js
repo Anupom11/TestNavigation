@@ -199,26 +199,41 @@ function SettingsTab({route, navigation}) {
     
   });
 
-  const addFavoriteMeal=()=> {
+  const addFavoriteMeal=(id)=> {
     console.log("Add Op");
-    favMealCtx.addFavorite(1);
+    favMealCtx.addFavorite(id);
   }
 
   const viewFavoriteMeal=()=> {
     console.log("Meal ID:"+favMealCtx.ids);
   }
 
+  const removeFavoriteMeal=()=> {
+    console.log('Remove favorite');
+    favMealCtx.removeFavorite(1);
+  }
+
   return (
     <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
       <Text>Settings!</Text>
       
-      <Button
-        title="Add Favorite"
-        onPress={()=> addFavoriteMeal()} />
+      <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+        <Button
+          title="Add Favorite 1"
+          onPress={()=> addFavoriteMeal(1)} />
 
+        <Button
+          title="Add Favorite 2"
+          onPress={()=> addFavoriteMeal(2)}  />
+      </View>
+    
       <Button
         title="View Favorite"
         onPress={()=> viewFavoriteMeal()} />
+
+      <Button
+        title="Remove Favorite"
+        onPress={()=> removeFavoriteMeal()} />
 
     </View>
   );

@@ -13,9 +13,16 @@ function FavoritesContextProvider({children}) {
         setFavMeal((currentMeal)=> [...currentMeal, id]);
     }
 
+    function removeFavorite(id) {
+        setFavMeal((currentMeal)=> 
+            currentMeal.filter((mealID)=> mealID != id)
+        );
+    }
+
     const value= {
         ids: favMeal,
         addFavorite: addFavorite,
+        removeFavorite: removeFavorite,
     };
 
     return <FavoriteContext.Provider value={value}>{children}</FavoriteContext.Provider>
