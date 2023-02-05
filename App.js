@@ -19,6 +19,9 @@ import Notepad from '../TestNavigation/source/notepad';
 
 import FavoritesContextProvider from './source/context/Favorite-context';
 import { FavoriteContext } from './source/context/Favorite-context';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { todoAdded, todoRemoved } from './source/redux/Favorites';
 
 var camera_lens = require('../TestNavigation/img/camera_lens.png');
 
@@ -193,7 +196,15 @@ function SettingsTab({route, navigation}) {
 
   const {data} = route.params;
 
-  const favMealCtx = useContext(FavoriteContext);
+  //const favMealCtx = useContext(FavoriteContext);
+
+  //------------------------------------------
+  // code section to working with redux 
+  const todoSelector = useSelector((state)=> state.todo.ids);
+
+  const todoDispatch = useDispatch();
+
+  //------------------------------------------
 
   useEffect(()=> {
     
@@ -201,23 +212,28 @@ function SettingsTab({route, navigation}) {
 
   const addFavoriteMeal=(id)=> {
     console.log("Add Op");
-    favMealCtx.addFavorite(id);
+    //favMealCtx.addFavorite(id);
+
+    todoDispatch(todoAdded({id: id}));
   }
 
   const viewFavoriteMeal=()=> {
-    console.log("Meal ID:"+favMealCtx.ids);
+    //console.log("Meal ID:"+favMealCtx.ids);
+    console.log("Redux id list::"+JSON.stringify(todoSelector));
   }
 
   const removeFavoriteMeal=()=> {
     console.log('Remove favorite');
-    favMealCtx.removeFavorite(1);
+    //favMealCtx.removeFavorite(1);
+
+    todoDispatch(todoRemoved({id: 1}));
   }
 
   return (
     <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
       <Text>Settings!</Text>
       
-      <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+      <View style={{flexDirection:'row', justifyContent:'space-between',}}>
         <Button
           title="Add Favorite 1"
           onPress={()=> addFavoriteMeal(1)} />

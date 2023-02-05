@@ -1,22 +1,10 @@
-import {createStore, combineReducers, compose/* , applyMiddleware*/} from 'redux';
-// import someReduxMiddleware from 'some-redux-middleware';
-// import someOtherReduxMiddleware from 'some-other-redux-middleware';
-import rootReducer from './reducers/Root.reducers';
+import { configureStore } from '@reduxjs/toolkit';
 
-export const store = createStore(rootReducer);
+import todoReducer from './Favorites';
 
-/* const enhancerList = [];
-const devToolsExtension = window && window.__REDUX_DEVTOOLS_EXTENSION__;
-
-if (typeof devToolsExtension === 'function') {
-  enhancerList.push(devToolsExtension());
-} */
-
-//const composedEnhancer = compose(/* applyMiddleware(someReduxMiddleware, someOtherReduxMiddleware),*/ ...enhancerList);
-
-/* const initStore = () => createStore(rootReducer, {}, composedEnhancer);
-
-module.exports = {
-  initStore
-}; */
+export const store = configureStore({
+  reducer: {
+    todo: todoReducer
+  }
+});
 
