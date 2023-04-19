@@ -8,6 +8,8 @@ import App from '../App';
 import {Provider} from 'react-redux';
 import {store} from './redux/store';
 
+import axios from "axios";
+
 export default function MainApp({ navigation }) {
 
   const [state, dispatch] = React.useReducer(
@@ -65,6 +67,40 @@ export default function MainApp({ navigation }) {
     bootstrapAsync();
   }, []);
 
+  const doRequest=async()=> {
+    let testURL = 'https://rams.mp.gov.in/rams/MPCommonLoginController';
+
+        let testData= {
+          "mainkey":"login",
+          "username":"rranjan",
+          "password":"8ee2ce9d7cedd3cb106a6f3472c16706c42ab71bc736222e5dd22bd830f88deb",
+          "macid":"",
+          "randomToken":"62131533720"
+        }
+
+        let HEADER_CONFIG = {
+          "header": { 
+              timeout:30000,
+              timeoutErrorMessage:'timeout',
+              headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/x-www-form-urlencoded'
+              }
+          }
+        };
+
+        console.log("URL::"+testURL);
+
+        await axios.post(testURL, JSON.stringify(testData), HEADER_CONFIG)
+          .then(res => {
+            console.log("retrun==" + JSON.stringify(res.data));
+            // console.log("url  ==" + API.login);
+          })
+          .catch(err => {
+            console.log("Error::"+JSON.stringify(err));
+          });
+  }
+
   const authContext = React.useMemo(
     () => ({
       signIn: async (data) => {
@@ -74,15 +110,62 @@ export default function MainApp({ navigation }) {
         // In the example, we'll use a dummy token
 
         dispatch({ type: 'LOAD', loading: true, txt: 'auth check...' });
-
-        if(data.email == 'email' && data.password == 'password') {
+                
+        /* if(data.email == 'email' && data.password == 'password') {
           dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
         }
         else {
           alert("Wrong credentials");
           dispatch({type: 'SIGN_OUT' });
+        } */
+
+        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+
+        let testURL = 'https://rams.mp.gov.in/rams/MPCommonLoginController';
+
+        let testData= {
+          "mainkey":"login",
+          "username":"rranjan",
+          "password":"8ee2ce9d7cedd3cb106a6f3472c16706c42ab71bc736222e5dd22bd830f88deb",
+          "macid":"",
+          "randomToken":"62131533720"
         }
 
+        let HEADER_CONFIG = {
+          "header": { 
+              timeout:30000,
+              timeoutErrorMessage:'timeout',
+              headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/x-www-form-urlencoded'
+              }
+          }
+        };
+
+        console.log("URL::"+testURL);
+
+        await axios.post(testURL, JSON.stringify(testData), HEADER_CONFIG)
+          .then(res => {
+            console.log("retrun==" + JSON.stringify(res.data));
+            // console.log("url  ==" + API.login);
+          })
+          .catch(err => {
+            console.log("Error::"+JSON.stringify(err));
+            doRequest();
+          });
+
+      },
+      forgotPwd: async()=> {
+        //let grievenceURL = 'https://rams.mp.gov.in/rams/citizengrievance.jsp';
+        let grievenceURL = 'https://google.com';
+        await axios.get(grievenceURL)
+          .then(res => {
+            console.log("retrun==" + JSON.stringify(res.data));
+            // console.log("url  ==" + API.login);
+          })
+          .catch(err => {
+            console.log("Error::"+JSON.stringify(err));
+          });
       },
       signOut: () => {
         console.log("Sign out");

@@ -8,7 +8,9 @@ import {
     Image, 
     Platform, 
     StatusBar, 
-    TouchableOpacity
+    TouchableOpacity,
+    Modal,
+    ActivityIndicator,
 } from 'react-native';
 
 //import AuthContext from "./AppContext";  
@@ -23,12 +25,17 @@ var app_logo = require('../../TestNavigation/img/camera_lens.png');
 
 function SignIn({navigation}) {
 
-    const {signIn, signOut, signUp} = React.useContext(AuthContext);
+    const {signIn, signOut, signUp, forgotPwd} = React.useContext(AuthContext);
+
+    const [loading, setLoading] = useState(false);
 
     const [userEmail, setUserEmail]     = useState('');
     const [userPasswd, setUserPasswd]   = useState('');
 
     function doSignInOp() {
+
+        setLoading(true);
+
         if(userEmail != '' || userPasswd != '') {
             var userDetails = { 
                 email: userEmail,
@@ -42,9 +49,39 @@ function SignIn({navigation}) {
         }
     }
 
+    function doForgetPwd() {
+        forgotPwd();
+    }
+
+    const LoaderSection=(props)=> {
+        {console.log("Load::"+props.loading)}
+        return (
+            <Modal
+                transparent={true}
+                animationType={'fade'}
+                visible={props.loading}
+                onRequestClose={()=> { setLoading(false) }}>
+                
+                <View style={{backgroundColor:'#ff0000'}}>
+                    <View>
+                        <TouchableOpacity onPress={()=> setLoading(false)}>
+                            <Text>Close</Text>
+                        </TouchableOpacity>
+                        
+                        <ActivityIndicator animating={props.loading}  size="small" color="mediumblue" />
+                        <Text style={{color:'blue', fontSize:13}}>Loading</Text>
+                    </View>
+                </View>
+
+            </Modal>
+        )
+    }
+
     return (
         <>
         <View style={styleSheet.container}>
+
+            {loading ? <LoaderSection loading={loading} /> : null }
 
             <StatusBar style="auto"/>
 
@@ -83,7 +120,8 @@ function SignIn({navigation}) {
                 </View>
 
                 <View style={{alignItems:'center', marginTop:25}}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={()=> doForgetPwd()}>
                         <Text style={{color:'#f73e05', fontSize: 16}}>Forgot Password!</Text>
                     </TouchableOpacity>
                 </View>

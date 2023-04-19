@@ -17,6 +17,8 @@ import { Header } from 'react-native/Libraries/NewAppScreen';
 
 import Notepad from '../TestNavigation/source/notepad';
 
+import TestScreenVal from './source/TestScreen';
+
 import FavoritesContextProvider from './source/context/Favorite-context';
 import { FavoriteContext } from './source/context/Favorite-context';
 import { useDispatch, useSelector } from 'react-redux';
@@ -134,7 +136,9 @@ function ProfileScreen({navigation}) {
         loading: false,
         err
     }) */
- })
+ });
+
+ const webViewRef = useRef(null);
 
   return (
     <View style={{marginStart:20, marginEnd:20}}>
@@ -148,6 +152,18 @@ function ProfileScreen({navigation}) {
         <Image
           style={{width:300, height:300, marginTop:20}}
           source={{uri:'file:///data/user/0/com.testnavigation/cache/6a7a4a93-3f59-4b56-8f8e-b3e00b44c1c9imagemarker.jpg'}}/>
+    
+    {/* <View>
+      <WebView
+         ref={webViewRef}
+          source={{ uri:'https://rams.mp.gov.in/rams/citizengrievance.jsp' }}
+          style={{ marginTop:2 }}
+          cacheEnabled={false}  />
+
+    </View> */}
+
+    
+  
     </View>
   );
 
@@ -299,6 +315,7 @@ function DrawerStack() {
       <drawerNavigator.Screen name="Profile" component={ProfileScreen}/>
       <drawerNavigator.Screen name="Sign in" component={SignIn}  />
       <drawerNavigator.Screen name="Notepad" component={Notepad}  />
+      <drawerNavigator.Screen name="TestScreenVal" component={TestScreenVal} />
     </drawerNavigator.Navigator>
   );
 }
